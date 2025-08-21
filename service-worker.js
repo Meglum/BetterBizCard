@@ -1,5 +1,5 @@
 // App-shell cache; video not pre-cached
-const CACHE = "vm-card-v4"; // bumped for flip feature
+const CACHE = "vm-card-v5"; // bump for layout changes
 const CORE = [
   "./",
   "./index.html",

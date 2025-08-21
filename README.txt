@@ -1,12 +1,8 @@
-# VibeMind PWA (v4) — Flip Card
-- New: 3D flip between front/back with a top-right badge (⤾)
-- Content keeps clear of the badge via top spacer
-- JS dynamically sizes the card to fit the taller face
-- Robust appointment QR parsing
-- Service Worker cache bumped to vm-card-v4
+# VibeMind PWA (v5) — Centered contact block + inner rounded card
+- Title, phone, and email are centered under the name
+- New "info-card" box with rounded corners (logo stays outside)
+- Narrower layout to feel like a real business card
+- Keeps the 3D flip + robust appointment QR parsing
+- Service Worker cache bumped to vm-card-v5
 
-## Deploy on Vercel
-Framework: Other • Build: (empty) • Output: /
-
-## Use with iOS app
-Set Public Link to your deployed URL. Primary QR opens the card; Appointment QR adds entries to the PWA.
+Deploy on Vercel (Framework: Other, Build: empty, Output: /).

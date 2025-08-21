@@ -97,6 +97,12 @@ function renderAppts(){
     dl.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
     dl.download = `appointment-${a.rid || Date.now()}.ics`;
     dl.textContent = "Add to Calendar";
+    // iOS-friendly fallback
+    dl.addEventListener("click", (e) => {
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        // allow default navigation to the blob URL
+      }
+    });
     right.appendChild(dl);
 
     li.appendChild(left);
@@ -143,7 +149,7 @@ function sizeCard(){
   const back  = document.getElementById("cardBack");
   if (!outer || !front || !back) return;
 
-  // Temporarily ensure faces are in normal flow for accurate measurement
+  // Temporarily ensure faces are in normal flow for measurement
   outer.classList.remove("prepared");
   front.style.position = back.style.position = "static";
   front.style.inset = back.style.inset = "auto";
@@ -151,7 +157,7 @@ function sizeCard(){
   const h = Math.max(front.offsetHeight, back.offsetHeight);
   outer.style.height = h + "px";
 
-  // Switch to stacked 3D faces
+  // Switch to stacked faces
   outer.classList.add("prepared");
   front.style.position = back.style.position = "";
   front.style.inset = back.style.inset = "";
@@ -182,6 +188,5 @@ sizeCard();
 registerSW();
 
 window.addEventListener("resize", sizeCard);
-// Re-measure when video metadata loads
 const vid = document.getElementById("introVideo");
 if (vid) vid.addEventListener("loadedmetadata", sizeCard);
