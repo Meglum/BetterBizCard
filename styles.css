@@ -1,13 +1,39 @@
 :root{
   --bg:#f6f7fb; --card:#ffffff; --muted:#64748b; --ink:#0f172a; --accent:#2563eb;
-  --radius:22px; --shadow: 0 6px 24px rgba(15,23,42,.08);
+  --radius:24px; --shadow: 0 6px 24px rgba(15,23,42,.08);
+  --flip-size:44px; --flip-inset:8px; --flip-clear:calc(var(--flip-size) + var(--flip-inset) + 6px);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,Roboto,Ubuntu}
 .banner{padding:12px 16px}
 .logo{width:100%; max-height:112px; object-fit:contain; border-radius:14px; background:#eef2ff}
-.card{max-width:760px;margin:0 auto 64px; background:var(--card); border-radius:24px; box-shadow:var(--shadow); padding:16px}
-.front,.back{padding:16px 20px}
+
+/* Shell constrains the content width */
+.shell{max-width:760px;margin:0 auto 64px; padding:0 16px}
+
+/* Flip card container */
+.card-outer{position:relative; perspective:1200px; opacity:0; transition:opacity .2s ease}
+.card-outer.prepared{opacity:1}
+.card-inner{
+  position:relative; background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+  transform-style:preserve-3d; transition:transform .6s ease-in-out;
+}
+.card-inner.flipped{ transform: rotateY(180deg); }
+.face{ backface-visibility:hidden; border-radius:var(--radius); padding:16px 20px; }
+.card-outer.prepared .face{ position:absolute; inset:0; }
+.front, .back{ min-height: 420px; } /* safety; JS adjusts height precisely */
+.back{ transform: rotateY(180deg); }
+
+.flip-badge{
+  position:absolute; top:var(--flip-inset); right:var(--flip-inset);
+  width:var(--flip-size); height:var(--flip-size); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.65); backdrop-filter:saturate(180%) blur(10px);
+  border:1px solid rgba(0,0,0,.08); cursor:pointer; z-index:3; font-size:18px;
+}
+.flip-clear{ height: var(--flip-clear); }
+
+/* Face content reused from earlier */
 .headshot-wrap{display:flex;justify-content:center}
 .headshot{width:108px;height:108px;border-radius:50%;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,.08);background:#e9ecf6}
 h1{font-size:22px;margin:14px 0 4px;text-align:center}
@@ -18,14 +44,17 @@ h1{font-size:22px;margin:14px 0 4px;text-align:center}
 .company{font-weight:600;margin-top:8px}
 .block{margin-top:8px}
 .video video{width:100%;max-height:220px;border-radius:16px;background:#eef2ff}
-.actions{display:flex;gap:12px;flex-wrap:wrap;padding:8px 20px 20px}
+
+/* Actions / appointments remain outside the flipping card */
+.actions{display:flex;gap:12px;flex-wrap:wrap;padding:16px 0}
 .btn{background:var(--accent);color:#fff;border:none;padding:12px 16px;border-radius:12px;text-decoration:none;cursor:pointer}
 .btn.outline{background:transparent;color:var(--accent);border:2px solid var(--accent)}
-.appointments{padding:16px 20px 24px}
+.appointments{padding:8px 0 24px}
 .appointments ul{list-style:none;padding:0;margin:0}
 .appointments li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #eaeef5}
-.appointments .pill{padding:4px 10px;border-radius:999px;background:#eef2ff;color:#334155;font-size:12px}
 .action-links a{margin-left:10px;font-size:14px}
+
+/* Toast */
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .25s}
 .toast.show{opacity:1}
 @media (display-mode: standalone){ body{padding-top: 20px;} }

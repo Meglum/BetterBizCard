@@ -1,3 +1,4 @@
+// ---- CARD DATA (demo defaults) ----
 const CARD = {
   fullName: "Dr. Alex Rivera",
   title: "Clinical Psychologist",
@@ -10,9 +11,18 @@ const CARD = {
   about: "Hi! I help people with a practical, warm approach.",
   services: ["Individual therapy","Couples therapy","Telehealth consultations"]
 };
+
 const STORAGE_KEYS = { appts: "vm_appointments" };
 const $ = sel => document.querySelector(sel);
-function toast(msg){ const el = $("#toast"); el.textContent = msg; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"), 2200); }
+
+function toast(msg){
+  const el = $("#toast");
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"), 2200);
+}
+
 function renderCard(){
   $("#fullName").textContent = CARD.fullName;
   $("#title").textContent = CARD.title;
@@ -27,9 +37,12 @@ function renderCard(){
   $("#website").textContent = CARD.website;
   $("#website").href = CARD.website;
   $("#about").textContent = CARD.about;
+
   const ul = document.querySelector("#services");
   ul.innerHTML = "";
   CARD.services.forEach(s => { const li = document.createElement("li"); li.textContent = s; ul.appendChild(li); });
+
+  // vCard
   const v = [
     "BEGIN:VCARD","VERSION:3.0",
     `N:${CARD.fullName.split(" ").slice(1).join(" ")};${CARD.fullName.split(" ")[0]};;;`,
@@ -40,34 +53,58 @@ function renderCard(){
   ].join("\n");
   const blob = new Blob([v], {type: "text/vcard"});
   $("#vcardBtn").href = URL.createObjectURL(blob);
+
+  // share
   $("#shareBtn").onclick = async () => {
     const shareData = { title:"VibeMind Card", text:`Contact ${CARD.fullName} at ${CARD.company}`, url: location.origin + location.pathname };
     if (navigator.share) { try { await navigator.share(shareData); } catch{} }
     else { await navigator.clipboard.writeText(shareData.url); toast("Copied link to clipboard"); }
   };
 }
+
+/* ---- Appointments ---- */
 function loadAppts(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.appts) || "[]"); } catch { return []; } }
 function saveAppts(list){ localStorage.setItem(STORAGE_KEYS.appts, JSON.stringify(list)); }
-function addAppt(obj){ const list = loadAppts(); if (obj.rid && list.some(a => a.rid === obj.rid)) return false; list.push(obj); list.sort((a,b)=> new Date(a.when) - new Date(b.when)); saveAppts(list); return true; }
+function addAppt(obj){
+  const list = loadAppts();
+  if (obj.rid && list.some(a => a.rid === obj.rid)) return false; // dedupe
+  list.push(obj);
+  list.sort((a,b)=> new Date(a.when) - new Date(b.when));
+  saveAppts(list); return true;
+}
+
 function renderAppts(){
   const list = loadAppts();
-  const ul = document.querySelector("#apptList"); ul.innerHTML = "";
-  document.querySelector("#apptEmpty").style.display = list.length ? "none":"block";
-  list.forEach(a => {
+  const ul = document.getElementById("apptList");
+  if (ul) ul.innerHTML = "";
+  const empty = document.getElementById("apptEmpty");
+  if (empty) empty.style.display = list.length ? "none" : "block";
+
+  (list || []).forEach(a => {
+    if (!ul) return;
     const li = document.createElement("li");
+
     const left = document.createElement("div");
-    left.innerHTML = `<div><strong>${new Date(a.when).toLocaleString([], {dateStyle:"medium", timeStyle:"short"})}</strong></div>
-      <div class="muted">${a.name || CARD.fullName}${a.loc ? " • "+a.loc : ""}</div>`;
-    const right = document.createElement("div"); right.className="action-links";
+    left.innerHTML = `
+      <div><strong>${new Date(a.when).toLocaleString([], {dateStyle:"medium", timeStyle:"short"})}</strong></div>
+      <div class="muted">${a.name || ""}${a.loc ? " • " + a.loc : ""}</div>
+    `;
+
+    const right = document.createElement("div");
+    right.className = "action-links";
     const ics = buildICS(a);
     const dl = document.createElement("a");
-    dl.href = URL.createObjectURL(new Blob([ics], {type:"text/calendar"}));
+    dl.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
     dl.download = `appointment-${a.rid || Date.now()}.ics`;
     dl.textContent = "Add to Calendar";
     right.appendChild(dl);
-    li.appendChild(left); li.appendChild(right); ul.appendChild(li);
+
+    li.appendChild(left);
+    li.appendChild(right);
+    ul.appendChild(li);
   });
 }
+
 function buildICS(a){
   const dt = new Date(a.when); const dtEnd = new Date(dt.getTime()+30*60*1000);
   const fmt = z => z.toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
@@ -82,14 +119,69 @@ function buildICS(a){
     "END:VEVENT","END:VCALENDAR"
   ].join("\r\n");
 }
+
+// Robust query param handler
 function handleQueryParams(){
   const q = new URLSearchParams(location.search);
-  const appt = q.get("appt"); const name = q.get("name"); const loc = q.get("loc"); const rid = q.get("rid");
+  const appt = q.get("appt") || q.get("appointment") || q.get("datetime") || q.get("date") || q.get("dt");
+  const name = q.get("name") || q.get("with") || q.get("doctor");
+  const loc  = q.get("loc") || q.get("location") || q.get("addr") || q.get("address");
+  const rid  = q.get("rid") || q.get("rId") || q.get("id") || q.get("uid");
+
   if (appt){
     const ok = addAppt({ when: appt, name, loc, rid });
-    renderAppts(); if (ok) toast("Appointment saved"); else toast("Appointment already saved");
+    renderAppts();
+    toast(ok ? "Appointment saved" : "Appointment already saved");
     history.replaceState(null, "", location.pathname);
   }
 }
-async function registerSW(){ if ("serviceWorker" in navigator) { try { await navigator.serviceWorker.register("./service-worker.js"); } catch{} } }
-renderCard(); renderAppts(); handleQueryParams(); registerSW();
+
+/* ---- Flip feature ---- */
+function sizeCard(){
+  const outer = document.getElementById("cardOuter");
+  const front = document.getElementById("cardFront");
+  const back  = document.getElementById("cardBack");
+  if (!outer || !front || !back) return;
+
+  // Temporarily ensure faces are in normal flow for accurate measurement
+  outer.classList.remove("prepared");
+  front.style.position = back.style.position = "static";
+  front.style.inset = back.style.inset = "auto";
+
+  const h = Math.max(front.offsetHeight, back.offsetHeight);
+  outer.style.height = h + "px";
+
+  // Switch to stacked 3D faces
+  outer.classList.add("prepared");
+  front.style.position = back.style.position = "";
+  front.style.inset = back.style.inset = "";
+}
+
+function setupFlip(){
+  const btn = document.getElementById("flipBtn");
+  const inner = document.getElementById("cardInner");
+  if (!btn || !inner) return;
+  btn.addEventListener("click", () => {
+    inner.classList.toggle("flipped");
+  });
+}
+
+/* ---- Service Worker ---- */
+async function registerSW(){
+  if ("serviceWorker" in navigator) {
+    try { await navigator.serviceWorker.register("./service-worker.js"); } catch{}
+  }
+}
+
+/* ---- Boot ---- */
+renderCard();
+renderAppts();
+handleQueryParams();
+setupFlip();
+sizeCard();
+registerSW();
+
+window.addEventListener("resize", sizeCard);
+// Re-measure when video metadata loads
+const vid = document.getElementById("introVideo");
+if (vid) vid.addEventListener("loadedmetadata", sizeCard);
