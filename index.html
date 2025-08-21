@@ -22,12 +22,13 @@
     <main class="shell">
       <!-- Flip Card -->
       <div id="cardOuter" class="card-outer" aria-live="polite">
-        <button id="flipBtn" class="flip-badge" aria-label="Flip card" title="Flip card">⤾</button>
         <div id="cardInner" class="card-inner" role="region" aria-roledescription="business card">
           <!-- FRONT -->
           <section id="cardFront" class="face front">
-            <div class="flip-clear"></div>
             <div class="info-card">
+              <div class="flip-clear"></div>
+              <button class="flip-badge in-card" data-flip aria-label="Flip card" title="Flip card">⤾</button>
+
               <div class="headshot-wrap">
                 <img id="headshot" class="headshot" src="assets/sample_headshot.png" alt="Headshot" />
               </div>
@@ -52,8 +53,10 @@
 
           <!-- BACK -->
           <section id="cardBack" class="face back">
-            <div class="flip-clear"></div>
             <div class="info-card">
+              <div class="flip-clear"></div>
+              <button class="flip-badge in-card" data-flip aria-label="Flip card" title="Flip card">⤾</button>
+
               <div id="videoWrap" class="video">
                 <video id="introVideo" controls playsinline preload="metadata">
                   <source src="assets/sample_intro.mp4" type="video/mp4">

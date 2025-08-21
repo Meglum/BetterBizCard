@@ -158,12 +158,10 @@ function sizeCard(){
 }
 
 function setupFlip(){
-  const btn = document.getElementById("flipBtn");
   const inner = document.getElementById("cardInner");
-  if (!btn || !inner) return;
-  btn.addEventListener("click", () => {
-    inner.classList.toggle("flipped");
-  });
+  const buttons = document.querySelectorAll("[data-flip]");
+  if (!inner) return;
+  buttons.forEach(btn => btn.addEventListener("click", () => inner.classList.toggle("flipped")));
 }
 
 /* ---- Service Worker ---- */

@@ -1,6 +1,6 @@
 :root{
   --bg:#ffffff; --card:#f2f4f7; --logoBlock:#ffffff; --muted:#64748b; --ink:#0f172a; --accent:#2563eb;
-  --radius:24px; --shadow: 0 6px 24px rgba(15,23,42,.08);
+  --radius:24px; 
   --flip-size:44px; --flip-inset:8px; --flip-clear:calc(var(--flip-size) + var(--flip-inset) + 6px);
 }
 *{box-sizing:border-box}
@@ -9,7 +9,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px sys
 /* Narrow shell like a business card */
 .shell{max-width:440px;margin:0 auto 64px; padding:0 16px}
 .banner{max-width:440px;margin:0 auto;padding:12px 16px 4px}
-.logo-card{background:var(--logoBlock); border-radius:var(--radius); box-shadow:var(--shadow); padding:10px 12px; margin:0 4px 10px}
+.logo-card{background:var(--logoBlock); border-radius:var(--radius); padding:10px 12px; margin:0 4px 10px}
 .logo{width:100%; max-height:112px; object-fit:contain; border-radius:10px}
 
 /* Flip card */
@@ -22,28 +22,28 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px sys
 .front, .back{ min-height: 420px; } /* JS adjusts height precisely */
 .back{ transform: rotateY(180deg); }
 
-/* Inner card box is light grey to match app */
+/* Inner card box is light grey to match app (no shadow) */
 .info-card{
+  position: relative;
   background: var(--card);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
   padding: 16px 20px;
   margin: 0 4px 6px;
 }
 
-/* Flip badge + clearance spacer */
+/* Flip badge inside card + clearance spacer */
 .flip-badge{
   position:absolute; top:var(--flip-inset); right:var(--flip-inset);
   width:var(--flip-size); height:var(--flip-size); border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  background:rgba(255,255,255,.7); backdrop-filter:saturate(180%) blur(10px);
+  background:#ffffffcc; backdrop-filter:saturate(180%) blur(10px);
   border:1px solid rgba(0,0,0,.08); cursor:pointer; z-index:3; font-size:18px;
 }
 .flip-clear{ height: var(--flip-clear); }
 
 /* Front face content */
 .headshot-wrap{display:flex;justify-content:center}
-.headshot{width:108px;height:108px;border-radius:50%;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,.08);background:#e9ecf6}
+.headshot{width:108px;height:108px;border-radius:50%;object-fit:cover;background:#e9ecf6}
 h1{font-size:22px;margin:14px 0 6px;text-align:center}
 
 /* Centered block under the name */

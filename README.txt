@@ -1,8 +1,8 @@
-# VibeMind PWA (v7)
-- Spacing: removed gap under phone / above email; added 3× space before company
-- Actions: centered row; Share is now icon-only
-- Logo block: same width as card; white; shadowed
-- Background: page + logo block are white; inner card is light grey (matches app)
-- 3D flip retained; cache bumped to vm-card-v7
+# VibeMind PWA (v8)
+- Removed shadows from logo + info cards
+- Flip icon moved *inside* the card (top-right of the grey box)
+- Extra top spacer so the flip icon never overlaps content
+- Narrow business card layout preserved; centered phone/email under title
+- Cache bumped to `vm-card-v8`
 
-Deploy on Vercel (Framework: Other, Output: /). Refresh once on device to update the service worker.
+Deploy on Vercel (Framework: Other, Output: /). Refresh once on device to update the SW.
