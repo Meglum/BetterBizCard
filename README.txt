@@ -1,8 +1,7 @@
-# VibeMind PWA (v8)
-- Removed shadows from logo + info cards
-- Flip icon moved *inside* the card (top-right of the grey box)
-- Extra top spacer so the flip icon never overlaps content
-- Narrow business card layout preserved; centered phone/email under title
-- Cache bumped to `vm-card-v8`
+# VibeMind PWA (v9)
+- Pulled content up so actions & appointments sit neatly right under the card
+- Reduced overall vertical spacing and min-height (360px) on faces
+- Smaller paddings/margins across shell, card, actions, and appointments
+- Cache bumped to vm-card-v9
 
-Deploy on Vercel (Framework: Other, Output: /). Refresh once on device to update the SW.
+After deploy: refresh once on the device to update the service worker.

@@ -1,5 +1,5 @@
 // App-shell cache; video not pre-cached
-const CACHE = "vm-card-v8"; // bumped for flip-in-card + no-shadow
+const CACHE = "vm-card-v9"; // bumped for tighter layout
 const CORE = [
   "./",
   "./index.html",
@@ -17,7 +17,7 @@ self.addEventListener("install", e => {
 
 self.addEventListener("activate", e => {
   e.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.map(k => (k===CACHE ? None : caches.delete(k)))))
+    caches.keys().then(keys => Promise.all(keys.map(k => (k===CACHE ? null : caches.delete(k)))))
   );
   self.clients.claim();
 });

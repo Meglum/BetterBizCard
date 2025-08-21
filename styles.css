@@ -6,20 +6,21 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,Roboto,Ubuntu}
 
-/* Narrow shell like a business card */
-.shell{max-width:440px;margin:0 auto 64px; padding:0 16px}
+/* Narrow shell like a business card (reduced bottom margin to pull content up) */
+.shell{max-width:440px;margin:0 auto 28px; padding:0 16px}
 .banner{max-width:440px;margin:0 auto;padding:12px 16px 4px}
-.logo-card{background:var(--logoBlock); border-radius:var(--radius); padding:10px 12px; margin:0 4px 10px}
+.logo-card{background:var(--logoBlock); border-radius:var(--radius); padding:10px 12px; margin:0 4px 8px}
 .logo{width:100%; max-height:112px; object-fit:contain; border-radius:10px}
 
 /* Flip card */
-.card-outer{position:relative; perspective:1200px; opacity:0; transition:opacity .2s ease}
+.card-outer{position:relative; perspective:1200px; opacity:0; transition:opacity .2s ease; margin-bottom:8px}
 .card-outer.prepared{opacity:1}
 .card-inner{ position:relative; background:transparent; border-radius:var(--radius); transform-style:preserve-3d; transition:transform .6s ease-in-out; }
 .card-inner.flipped{ transform: rotateY(180deg); }
-.face{ backface-visibility:hidden; border-radius:var(--radius); padding:0 4px 4px; }
+.face{ backface-visibility:hidden; border-radius:var(--radius); padding:0 4px 2px; }
 .card-outer.prepared .face{ position:absolute; inset:0; }
-.front, .back{ min-height: 420px; } /* JS adjusts height precisely */
+/* Smaller min-height so actions are above the fold */
+.front, .back{ min-height: 360px; } 
 .back{ transform: rotateY(180deg); }
 
 /* Inner card box is light grey to match app (no shadow) */
@@ -27,8 +28,8 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px sys
   position: relative;
   background: var(--card);
   border-radius: var(--radius);
-  padding: 16px 20px;
-  margin: 0 4px 6px;
+  padding: 14px 18px;
+  margin: 0 4px 0;
 }
 
 /* Flip badge inside card + clearance spacer */
@@ -44,7 +45,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px sys
 /* Front face content */
 .headshot-wrap{display:flex;justify-content:center}
 .headshot{width:108px;height:108px;border-radius:50%;object-fit:cover;background:#e9ecf6}
-h1{font-size:22px;margin:14px 0 6px;text-align:center}
+h1{font-size:22px;margin:12px 0 6px;text-align:center}
 
 /* Centered block under the name */
 .center-block{ margin: 2px 0 0; }
@@ -57,7 +58,7 @@ h1{font-size:22px;margin:14px 0 6px;text-align:center}
 .row.tight{ margin:0; }
 
 /* Triple space between email and company */
-.block.details.push3x{ margin-top:24px; }
+.block.details.push3x{ margin-top:22px; }
 
 /* Back face */
 .muted{color:var(--muted)}
@@ -66,21 +67,22 @@ h1{font-size:22px;margin:14px 0 6px;text-align:center}
 .block{margin-top:8px}
 .video video{width:100%;max-height:220px;border-radius:16px;background:#eef2ff}
 
-/* Actions centered; Share is icon-only */
-.actions{display:flex;gap:12px;flex-wrap:wrap;padding:16px 0}
+/* Actions centered; tighter spacing to sit above the fold */
+.actions{display:flex;gap:10px;flex-wrap:wrap;padding:10px 0 8px}
 .actions.center{justify-content:center}
-.btn{background:#0b66ff;color:#fff;border:none;padding:12px 16px;border-radius:12px;text-decoration:none;cursor:pointer}
-.btn.icon-btn{background:#0b66ff;color:#fff;display:flex;align-items:center;justify-content:center;width:46px;height:46px;padding:0;border-radius:12px}
+.btn{background:#0b66ff;color:#fff;border:none;padding:10px 14px;border-radius:12px;text-decoration:none;cursor:pointer}
+.btn.icon-btn{background:#0b66ff;color:#fff;display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border-radius:12px}
 .btn.outline{background:transparent;color:#0b66ff;border:2px solid #0b66ff}
 
-/* Appointments */
-.appointments{padding:8px 0 24px}
+/* Appointments (tighter) */
+.appointments{padding:6px 0 12px}
+.appointments h2{margin:6px 0 10px}
 .appointments ul{list-style:none;padding:0;margin:0}
-.appointments li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #eaeef5}
+.appointments li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #eaeef5}
 .action-links a{margin-left:10px;font-size:14px}
 
 /* Toast */
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#111827;color:#fff;padding:9px 12px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .25s}
 .toast.show{opacity:1}
 @media (display-mode: standalone){ body{padding-top: 20px;} }
 
