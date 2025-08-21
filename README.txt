@@ -1,8 +1,8 @@
-# VibeMind PWA (v5) — Centered contact block + inner rounded card
-- Title, phone, and email are centered under the name
-- New "info-card" box with rounded corners (logo stays outside)
-- Narrower layout to feel like a real business card
-- Keeps the 3D flip + robust appointment QR parsing
-- Service Worker cache bumped to vm-card-v5
+# VibeMind PWA (v7)
+- Spacing: removed gap under phone / above email; added 3× space before company
+- Actions: centered row; Share is now icon-only
+- Logo block: same width as card; white; shadowed
+- Background: page + logo block are white; inner card is light grey (matches app)
+- 3D flip retained; cache bumped to vm-card-v7
 
-Deploy on Vercel (Framework: Other, Build: empty, Output: /).
+Deploy on Vercel (Framework: Other, Output: /). Refresh once on device to update the service worker.

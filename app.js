@@ -97,12 +97,6 @@ function renderAppts(){
     dl.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
     dl.download = `appointment-${a.rid || Date.now()}.ics`;
     dl.textContent = "Add to Calendar";
-    // iOS-friendly fallback
-    dl.addEventListener("click", (e) => {
-      if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-        // allow default navigation to the blob URL
-      }
-    });
     right.appendChild(dl);
 
     li.appendChild(left);

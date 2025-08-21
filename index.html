@@ -14,7 +14,9 @@
 <body>
   <div id="app">
     <header class="banner">
-      <img id="logo" class="logo" src="assets/sample_logo.png" alt="Logo" />
+      <div class="logo-card">
+        <img id="logo" class="logo" src="assets/sample_logo.png" alt="Logo" />
+      </div>
     </header>
 
     <main class="shell">
@@ -33,13 +35,13 @@
 
               <div class="center-block">
                 <div id="title" class="muted center-text">Clinical Psychologist</div>
-                <div class="center-lines">
-                  <div class="row"><span class="icon">📞</span><a id="mobile" href="tel:+61400123456">+61 400 123 456</a></div>
-                  <div class="row"><span class="icon">✉️</span><a id="email" href="mailto:alex@vibemind.au">alex@vibemind.au</a></div>
+                <div class="center-lines tight">
+                  <div class="row tight"><span class="icon">📞</span><a id="mobile" href="tel:+61400123456">+61 400 123 456</a></div>
+                  <div class="row tight"><span class="icon">✉️</span><a id="email" href="mailto:alex@vibemind.au">alex@vibemind.au</a></div>
                 </div>
               </div>
 
-              <div class="block details">
+              <div class="block details push3x">
                 <div id="company" class="company">Vibemind Clinic</div>
                 <div class="row"><span class="icon">📞</span><a id="bizphone" href="tel:+61390000000">+61 3 9000 0000</a></div>
                 <div class="row"><span class="icon">📍</span><span id="address">12 High St, Ivanhoe VIC 3079</span></div>
@@ -73,9 +75,15 @@
       </div>
 
       <!-- Actions -->
-      <section class="actions">
-        <a id="vcardBtn" class="btn" href="#" download="VibeMind.vcf">Save contact (vCard)</a>
-        <button id="shareBtn" class="btn outline">Share card</button>
+      <section class="actions center">
+        <a id="vcardBtn" class="btn" href="#" download="VibeMind.vcf" aria-label="Save contact">Save contact</a>
+        <button id="shareBtn" class="btn icon-btn" aria-label="Share card" title="Share card">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+            <path d="M16 6l-4-4-4 4" />
+            <path d="M12 2v14" />
+          </svg>
+        </button>
       </section>
 
       <!-- Appointments -->

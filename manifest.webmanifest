@@ -3,7 +3,7 @@
   "short_name": "VibeMind",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f6f7fb",
+  "background_color": "#ffffff",
   "theme_color": "#0f172a",
   "icons": [
     {
