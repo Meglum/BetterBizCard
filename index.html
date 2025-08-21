@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>VibeMind Card</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="apple-touch-icon" href="assets/sample_logo.png">
+</head>
+<body>
+  <div id="app">
+    <header class="banner">
+      <img id="logo" class="logo" src="assets/sample_logo.png" alt="Logo" />
+    </header>
+
+    <main class="card">
+      <section class="front">
+        <div class="headshot-wrap">
+          <img id="headshot" class="headshot" src="assets/sample_headshot.png" alt="Headshot" />
+        </div>
+        <h1 id="fullName">Dr. Alex Rivera</h1>
+        <div id="title" class="muted">Clinical Psychologist</div>
+
+        <div class="center-lines">
+          <div class="row"><span class="icon">📞</span><a id="mobile" href="tel:+61400123456">+61 400 123 456</a></div>
+          <div class="row"><span class="icon">✉️</span><a id="email" href="mailto:alex@vibemind.au">alex@vibemind.au</a></div>
+        </div>
+
+        <div class="block">
+          <div id="company" class="company">Vibemind Clinic</div>
+          <div class="row"><span class="icon">📞</span><a id="bizphone" href="tel:+61390000000">+61 3 9000 0000</a></div>
+          <div class="row"><span class="icon">📍</span><span id="address">12 High St, Ivanhoe VIC 3079</span></div>
+          <div class="row"><span class="icon">🌐</span><a id="website" href="https://vibemind.au" target="_blank" rel="noopener">https://vibemind.au</a></div>
+        </div>
+      </section>
+
+      <section class="back">
+        <div id="videoWrap" class="video">
+          <video id="introVideo" controls playsinline preload="metadata">
+            <source src="assets/sample_intro.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <h2>About</h2>
+        <p id="about">
+          Hi! I help people with a practical, warm approach.
+        </p>
+
+        <h2>Services</h2>
+        <ul id="services">
+          <li>Individual therapy</li>
+          <li>Couples therapy</li>
+          <li>Telehealth consultations</li>
+        </ul>
+      </section>
+
+      <section class="actions">
+        <a id="vcardBtn" class="btn" href="#" download="VibeMind.vcf">Save contact (vCard)</a>
+        <button id="shareBtn" class="btn outline">Share card</button>
+      </section>
+
+      <section class="appointments">
+        <h2>Appointments</h2>
+        <div id="apptEmpty" class="muted">No appointments yet. Scan an Appointment QR to add one.</div>
+        <ul id="apptList"></ul>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
