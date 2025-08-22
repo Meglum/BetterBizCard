@@ -1,7 +1,6 @@
-# VibeMind PWA (v10)
-- **No more gap** above buttons: card resizes to the *visible face* height (animates on flip)
-- 3D flip intact
-- Slightly tighter paddings and margins
-- Cache bump: vm-card-v10
+# VibeMind PWA (v11)
+- Restored flip on iOS/Safari by adding `-webkit-` 3D transform + backface prefixes
+- Keep visible-face height sizing (no whitespace above buttons)
+- Cache bump: vm-card-v11
 
-Deploy on Vercel (Framework: Other, Output: /). Refresh once on the device to update the SW.
+After deploy, refresh once on device to update the service worker.

@@ -13,14 +13,26 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px sys
 .logo{width:100%; max-height:112px; object-fit:contain; border-radius:10px}
 
 /* Flip card */
-.card-outer{position:relative; perspective:1200px; opacity:0; transition:opacity .2s ease, height .35s ease; margin-bottom:6px}
+.card-outer{
+  position:relative; margin-bottom:6px;
+  perspective:1200px; -webkit-perspective:1200px;
+  opacity:0; transition:opacity .2s ease, height .35s ease;
+}
 .card-outer.prepared{opacity:1}
-.card-inner{ position:relative; background:transparent; border-radius:var(--radius); transform-style:preserve-3d; transition:transform .6s ease-in-out; }
-.card-inner.flipped{ transform: rotateY(180deg); }
-.face{ backface-visibility:hidden; border-radius:var(--radius); padding:0 4px 2px; }
+.card-inner{
+  position:relative; background:transparent; border-radius:var(--radius);
+  transform-style:preserve-3d; -webkit-transform-style:preserve-3d;
+  transition:transform .6s ease-in-out; will-change:transform;
+}
+.card-inner.flipped{ transform: rotateY(180deg); -webkit-transform: rotateY(180deg); }
+.face{
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  transform-style:preserve-3d; -webkit-transform-style:preserve-3d;
+  border-radius:var(--radius); padding:0 4px 2px;
+}
 .card-outer.prepared .face{ position:absolute; inset:0; }
-.front, .back{ min-height: 340px; } /* small default floor */
-.back{ transform: rotateY(180deg); }
+.front, .back{ min-height: 340px; }
+.back{ transform: rotateY(180deg); -webkit-transform: rotateY(180deg); }
 
 /* Inner card box (no shadow) */
 .info-card{
@@ -85,11 +97,11 @@ h1{font-size:22px;margin:12px 0 6px;text-align:center}
 .toast.show{opacity:1}
 @media (display-mode: standalone){ body{padding-top: 20px;} }
 
-/* Fallback for browsers without 3D transforms */
+/* Fallback for no 3D support */
 @supports not (transform-style: preserve-3d) {
-  .card-inner { transform: none !important; }
+  .card-inner { transform: none !important; -webkit-transform: none !important; }
   .face.back { display: none; }
   .card-inner.flipped .face.front { display: none; }
-  .card-inner.flipped .face.back { display: block; transform: none; }
+  .card-inner.flipped .face.back { display: block; transform: none; -webkit-transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .card-inner { transition: none; } }

@@ -136,7 +136,7 @@ function handleQueryParams(){
   }
 }
 
-/* ---- Flip feature + dynamic height (visible face only) ---- */
+/* ---- Flip + visible-face height ---- */
 function measureVisibleFaceHeight(){
   const outer = document.getElementById("cardOuter");
   const front = document.getElementById("cardFront");
@@ -165,7 +165,6 @@ function setupFlip(){
   if (!inner) return;
   buttons.forEach(btn => btn.addEventListener("click", () => {
     inner.classList.toggle("flipped");
-    // After CSS transform starts, quickly measure new visible face height
     setTimeout(measureVisibleFaceHeight, 16);
   }));
 }
