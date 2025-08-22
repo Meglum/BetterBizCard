@@ -17,7 +17,6 @@ const $ = sel => document.querySelector(sel);
 
 function toast(msg){
   const el = $("#toast");
-  if (!el) return;
   el.textContent = msg;
   el.classList.add("show");
   setTimeout(()=>el.classList.remove("show"), 2200);
@@ -42,7 +41,6 @@ function renderCard(){
   ul.innerHTML = "";
   CARD.services.forEach(s => { const li = document.createElement("li"); li.textContent = s; ul.appendChild(li); });
 
-  // vCard
   const v = [
     "BEGIN:VCARD","VERSION:3.0",
     `N:${CARD.fullName.split(" ").slice(1).join(" ")};${CARD.fullName.split(" ")[0]};;;`,
@@ -54,7 +52,6 @@ function renderCard(){
   const blob = new Blob([v], {type: "text/vcard"});
   $("#vcardBtn").href = URL.createObjectURL(blob);
 
-  // share
   $("#shareBtn").onclick = async () => {
     const shareData = { title:"VibeMind Card", text:`Contact ${CARD.fullName} at ${CARD.company}`, url: location.origin + location.pathname };
     if (navigator.share) { try { await navigator.share(shareData); } catch{} }
@@ -67,7 +64,7 @@ function loadAppts(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.
 function saveAppts(list){ localStorage.setItem(STORAGE_KEYS.appts, JSON.stringify(list)); }
 function addAppt(obj){
   const list = loadAppts();
-  if (obj.rid && list.some(a => a.rid === obj.rid)) return false; // dedupe
+  if (obj.rid && list.some(a => a.rid === obj.rid)) return false;
   list.push(obj);
   list.sort((a,b)=> new Date(a.when) - new Date(b.when));
   saveAppts(list); return true;
@@ -76,12 +73,11 @@ function addAppt(obj){
 function renderAppts(){
   const list = loadAppts();
   const ul = document.getElementById("apptList");
-  if (ul) ul.innerHTML = "";
+  ul.innerHTML = "";
   const empty = document.getElementById("apptEmpty");
-  if (empty) empty.style.display = list.length ? "none" : "block";
+  empty.style.display = list.length ? "none" : "block";
 
-  (list || []).forEach(a => {
-    if (!ul) return;
+  list.forEach(a => {
     const li = document.createElement("li");
 
     const left = document.createElement("div");
@@ -120,7 +116,6 @@ function buildICS(a){
   ].join("\r\n");
 }
 
-// Robust query param handler
 function handleQueryParams(){
   const q = new URLSearchParams(location.search);
   const appt = q.get("appt") || q.get("appointment") || q.get("datetime") || q.get("date") || q.get("dt");
@@ -144,7 +139,6 @@ function measureVisibleFaceHeight(){
   const inner = document.getElementById("cardInner");
   if (!outer || !front || !back || !inner) return;
 
-  // Temporarily place faces in normal flow so heights are accurate
   outer.classList.remove("prepared");
   front.style.position = back.style.position = "static";
   front.style.inset = back.style.inset = "auto";
@@ -153,7 +147,6 @@ function measureVisibleFaceHeight(){
   const h = (usingBack ? back.offsetHeight : front.offsetHeight) || 340;
   outer.style.height = h + "px";
 
-  // Switch back to stacked mode
   outer.classList.add("prepared");
   front.style.position = back.style.position = "";
   front.style.inset = back.style.inset = "";
@@ -163,10 +156,14 @@ function setupFlip(){
   const inner = document.getElementById("cardInner");
   const buttons = document.querySelectorAll("[data-flip]");
   if (!inner) return;
+  const measureSoon = () => requestAnimationFrame(()=>requestAnimationFrame(measureVisibleFaceHeight));
   buttons.forEach(btn => btn.addEventListener("click", () => {
     inner.classList.toggle("flipped");
-    setTimeout(measureVisibleFaceHeight, 16);
+    measureSoon();
   }));
+  inner.addEventListener("transitionend", (e) => {
+    if (e.propertyName.includes("transform")) measureVisibleFaceHeight();
+  });
 }
 
 /* ---- Service Worker ---- */

@@ -1,5 +1,5 @@
 // App-shell cache; video not pre-cached
-const CACHE = "vm-card-v11"; // bumped for webkit 3D fixes
+const CACHE = "vm-card-v14"; // bump again
 const CORE = [
   "./",
   "./index.html",
