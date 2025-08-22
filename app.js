@@ -136,22 +136,24 @@ function handleQueryParams(){
   }
 }
 
-/* ---- Flip feature ---- */
-function sizeCard(){
+/* ---- Flip feature + dynamic height (visible face only) ---- */
+function measureVisibleFaceHeight(){
   const outer = document.getElementById("cardOuter");
   const front = document.getElementById("cardFront");
   const back  = document.getElementById("cardBack");
-  if (!outer || !front || !back) return;
+  const inner = document.getElementById("cardInner");
+  if (!outer || !front || !back || !inner) return;
 
-  // Temporarily ensure faces are in normal flow for measurement
+  // Temporarily place faces in normal flow so heights are accurate
   outer.classList.remove("prepared");
   front.style.position = back.style.position = "static";
   front.style.inset = back.style.inset = "auto";
 
-  const h = Math.max(front.offsetHeight, back.offsetHeight);
+  const usingBack = inner.classList.contains("flipped");
+  const h = (usingBack ? back.offsetHeight : front.offsetHeight) || 340;
   outer.style.height = h + "px";
 
-  // Switch to stacked faces
+  // Switch back to stacked mode
   outer.classList.add("prepared");
   front.style.position = back.style.position = "";
   front.style.inset = back.style.inset = "";
@@ -161,7 +163,11 @@ function setupFlip(){
   const inner = document.getElementById("cardInner");
   const buttons = document.querySelectorAll("[data-flip]");
   if (!inner) return;
-  buttons.forEach(btn => btn.addEventListener("click", () => inner.classList.toggle("flipped")));
+  buttons.forEach(btn => btn.addEventListener("click", () => {
+    inner.classList.toggle("flipped");
+    // After CSS transform starts, quickly measure new visible face height
+    setTimeout(measureVisibleFaceHeight, 16);
+  }));
 }
 
 /* ---- Service Worker ---- */
@@ -176,9 +182,9 @@ renderCard();
 renderAppts();
 handleQueryParams();
 setupFlip();
-sizeCard();
+measureVisibleFaceHeight();
 registerSW();
 
-window.addEventListener("resize", sizeCard);
+window.addEventListener("resize", measureVisibleFaceHeight);
 const vid = document.getElementById("introVideo");
-if (vid) vid.addEventListener("loadedmetadata", sizeCard);
+if (vid) vid.addEventListener("loadedmetadata", measureVisibleFaceHeight);

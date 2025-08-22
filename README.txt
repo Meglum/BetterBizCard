@@ -1,7 +1,7 @@
-# VibeMind PWA (v9)
-- Pulled content up so actions & appointments sit neatly right under the card
-- Reduced overall vertical spacing and min-height (360px) on faces
-- Smaller paddings/margins across shell, card, actions, and appointments
-- Cache bumped to vm-card-v9
+# VibeMind PWA (v10)
+- **No more gap** above buttons: card resizes to the *visible face* height (animates on flip)
+- 3D flip intact
+- Slightly tighter paddings and margins
+- Cache bump: vm-card-v10
 
-After deploy: refresh once on the device to update the service worker.
+Deploy on Vercel (Framework: Other, Output: /). Refresh once on the device to update the SW.

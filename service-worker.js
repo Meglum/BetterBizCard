@@ -1,5 +1,5 @@
 // App-shell cache; video not pre-cached
-const CACHE = "vm-card-v9"; // bumped for tighter layout
+const CACHE = "vm-card-v10"; // bumped for visible-face height sizing
 const CORE = [
   "./",
   "./index.html",
